@@ -45,10 +45,10 @@ resource "aws_volume_attachment" "ebs_attachment" {
   count       = 4
   device_name = element(["/dev/sdf", "/dev/sdg"], count.index % 2)
   volume_id   = aws_ebs_volume.data_volume[count.index].id
-  instance_id = aws_instance.centos[count.index / 2].id
+  instance_id = aws_instance.centos[count.index < 2 ? 0 : 1].id
 }
 resource "aws_eip" "elastic_ip" {
   count    = 2
   instance = aws_instance.centos[count.index].id
-  vpc      = true
+  domain      = "vpc"
 }
