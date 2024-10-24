@@ -1,0 +1,43 @@
+---
+- hosts: centos_nodes
+  become: yes
+  tasks:
+    - name: Install required packages
+      yum:
+        name:
+          - bzip2
+          - perl
+        state: present
+
+    - name: Add Google Chrome repo
+      get_url:
+        url: https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+        dest: /tmp/google-chrome-stable_current_x86_64.rpm
+
+    - name: Install Google Chrome
+      yum:
+        name: /tmp/google-chrome-stable_current_x86_64.rpm
+        state: present
+
+    - name: Start Google Chrome
+      shell: google-chrome &
+
+    - name: Download and extract tgz file
+      unarchive:
+        src: http://www.sbeams.org/sample_data/Microarray/External_test_data.tar.gz
+        dest: /var/tmp
+        remote_src: yes
+
+    - name: Backup /etc/hosts
+      copy:
+        src: /etc/hosts
+        dest: /etc/hosts.bak
+        remote_src: yes
+
+    - name: Add entries to /etc/hosts
+      blockinfile:
+        path: /etc/hosts
+        block: |
+          1.2.3.4 host1
+          3.4.2.1 host2
+          5.6.3.2 host3
