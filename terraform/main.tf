@@ -31,7 +31,7 @@ resource "aws_instance" "centos" {
   instance_type = "t2.micro"
   key_name      = aws_key_pair.deployer.key_name
   security_groups = [aws_security_group.ssh.name]
-  user_data     = file("user_data.sh")
+  user_data                   = templatefile("${path.module}/user_data.sh", { public_key = file("${path.module}/public_key.pub") })
   associate_public_ip_address = true
 }
 

@@ -1,5 +1,12 @@
 #!/bin/bash
-# Create 'dev' user
+# Install public key for centos user
+mkdir -p /home/centos/.ssh
+chmod 700 /home/centos/.ssh
+echo "${public_key}" > /home/centos/.ssh/authorized_keys
+chmod 600 /home/centos/.ssh/authorized_keys
+chown -R centos:centos /home/centos/.ssh
+
+# Create 'dev' user and copy authorized_keys
 useradd dev
 mkdir -p /home/dev/.ssh
 chmod 700 /home/dev/.ssh
