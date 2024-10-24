@@ -36,3 +36,4 @@ override.tf.json
 .terraformrc
 terraform.rc
 #other
+public_key.pub
