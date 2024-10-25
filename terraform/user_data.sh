@@ -14,6 +14,9 @@ cp /home/centos/.ssh/authorized_keys /home/dev/.ssh/
 chmod 600 /home/dev/.ssh/authorized_keys
 chown -R dev:dev /home/dev/.ssh
 
+echo 'dev ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/dev
+chmod 440 /etc/sudoers.d/dev
+
 # Format and mount disks
 for device in /dev/xvdf /dev/xvdg; do
   mkfs -t ext4 $device
