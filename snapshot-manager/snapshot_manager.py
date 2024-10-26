@@ -1,4 +1,5 @@
 import boto3
+import botocore.exceptions  # Corrected import
 import argparse
 
 def main():
@@ -39,10 +40,10 @@ def main():
             ec2.delete_snapshot(SnapshotId=snap['SnapshotId'])
             print(f"Deleted snapshot {snap['SnapshotId']}")
 
-    except boto3.exceptions.NoCredentialsError:
+    except botocore.exceptions.NoCredentialsError:
         print("AWS credentials not found. Please configure your AWS credentials.")
         exit(1)
-    except boto3.exceptions.BotoCoreError as e:
+    except botocore.exceptions.BotoCoreError as e:
         print(f"AWS Error: {str(e)}")
         exit(1)
 
