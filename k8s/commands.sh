@@ -25,3 +25,16 @@ sudo yum install -y conntrack-tools
 #start minikube
 sudo usermod -aG docker $USER && newgrp docker
 minikube start --driver=docker -force
+#apply the apache deployment
+kubectl apply -f apache-deployment.yaml
+#expose the deployment
+kubectl expose deployment apache-deployment --type=NodePort --port=80
+#gather the nodeport IP from the apache deployment
+kubectl get services
+#place nodeport ip into <nodeport> and run curl to test service
+curl http://$(minikube ip):<NodePort>
+#start the API server
+kubectl proxy --port=8001 &
+#test with curl
+curl http://localhost:8001/api/v1/namespaces/default/services/apache-deployment
+curl http://localhost:8001/api/v1/namespaces/default/pods
