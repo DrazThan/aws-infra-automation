@@ -28,7 +28,7 @@ resource "aws_security_group" "ssh" {
 resource "aws_instance" "centos" {
   count         = 2
   ami           = "ami-0df2a11dd1fe1f8e3"  # Replace with the actual AMI ID
-  instance_type = "t2.micro"
+  instance_type = "t2.small"
   key_name      = aws_key_pair.deployer.key_name
   security_groups = [aws_security_group.ssh.name]
   user_data                   = templatefile("${path.module}/user_data.sh", { public_key = file("${path.module}/public_key.pub") })
